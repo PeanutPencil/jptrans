@@ -121,3 +121,26 @@ def _inter_vowel_logic(r,i,tmp):
     # Enters if no translation can be made. (Is a user error)
     else:
         return tmp
+
+
+def _inter_other_logic(r,i,tmp):
+    # Deals with single n syllables but not if they are at the end of r.
+    if ((i < len(r)-1) and (r[i] == 'N') and (r[i+1] not in _vowel) and 
+            (r[i+1] != 'Y')):
+        return _hiraganaDict[tmp]
+        
+    # Deals with single n syllables that are specifically at the end of r
+    elif (i == len(r)-1) and (r[i] == 'N'):
+        return _hiraganaDict[tmp]
+        
+    # Deals with small Tsu (Double consonant.)
+    elif (i < len(r)-1) and (r[i] == r[i+1]):
+        return _hiraganaDict['stsu']
+        
+    # Deals with spaces.
+    elif r[i] == ' ':
+        return '    '
+        
+    # Enters if no translation can be made. (Not an error.)
+    else:
+        return ''
