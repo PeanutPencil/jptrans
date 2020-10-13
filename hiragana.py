@@ -90,3 +90,34 @@ def trans(r):
             tmp = ''
             
     return output
+
+
+def _inter_vowel_logic(r,i,tmp):
+    # Deals with small Y syllables.  Disregards starting sylables
+    if (i >= 2) and (r[i-2] is not _vowel) and (r[i-1] == 'Y'):
+        return _hiraganaDict[tmp]
+        
+    # Deals with single char relationals.
+    elif ((i >= 1) and (r[i] in ('E', 'O')) and (r[i-1] == ' ') and 
+          (r[i+1] == ' ')):
+        if r[i] == 'E':
+            return _hiraganaDict['HE']
+        if r[i] == 'O':
+            return _hiraganaDict['WO']
+            
+    # Deals with changing Wa relational to Ha
+    elif ((2 < i < len(r)-1) and (r[i-2] == ' ') and 
+          (r[i+1] == ' ') and (tmp == 'WA')):
+        return _hiraganaDict['HA']
+            
+    # Deals with double O
+    elif (r[i] == 'O') and (r[i-1] == 'O'):
+        return _hiraganaDict['U']
+        
+    # Displays run of the mill syllables.
+    elif (tmp in _hiraganaDict.keys()):
+        return _hiraganaDict[tmp]
+    
+    # Enters if no translation can be made. (Is a user error)
+    else:
+        return tmp
