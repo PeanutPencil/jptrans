@@ -37,3 +37,56 @@ _hiraganaDict = {   'A':  'あ', 'I':  'い', 'U':  'う', 'E':  'え', 'O':  '�
                     'PYA': 'ぴゃ', 'PYU': 'ぴゅ', 'PYO': 'ぴょ', 
                     '.':   '。',   '!':   '!',   '?':   '?', 
 				}
+                
+def trans(r):
+    """ Translates Romanji text to Hiragana text.
+    
+    This function takes in a string of Romanji text and outputs a string
+    of Hiragana text using two other functions for the more detailed
+    rules.  The module uppers the text and begins looping through the
+    string using an integer as the index (This is because the two other
+    functions need to look at surrounding characters).  First it adds the
+    character to a tmp variable that will establish a Japanese syllable
+    that will be used to make the conversion from the hiraganaDict. Then
+    it detects if the current character is in ASCII range. If it is not, 
+    it skips the character (These characters have probably been converted 
+    to Katakana or Kanji already).  Then it checks to see if the currect
+    character is a vowel, if it is, it skips to the _inter_vowel_logic
+    function. After that it deletes tmp and continues the loop.  -----
+    
+    """
+    r = r.upper()
+    tmp = ''
+    output = ''
+    
+    # Loop through all letters.
+    for i in range(0, len(r)):
+        if ord(r[i]) > 255:
+            output += r[i]
+            continue
+        
+        tmp += r[i]
+        
+        # Enters if tmp is a complete syllable.
+        if r[i] in _vowel:
+            output += _inter_vowel_logic(r,i,tmp)
+            tmp = ''
+            continue
+                
+        # Handles other syllables where the next character needs to be 
+        # checked.  Ente
+        rs if this is not the last character AND not a
+        # vowel.
+        elif (i < len(r)-1) or (r[i] == 'N'):
+            output += _inter_other_logic(r,i,tmp)
+            # If inter_other_logic actually returned a value, delete tmp
+            if _inter_other_logic(r,i,tmp) != '':
+                tmp = ''
+            continue
+        
+        # Deals with punctuation.
+        elif r[i] in ('.', '?', '!'):
+            output += _hiraganaDict[tmp]
+            tmp = ''
+            
+    return output
