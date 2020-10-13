@@ -74,8 +74,7 @@ def trans(r):
             continue
                 
         # Handles other syllables where the next character needs to be 
-        # checked.  Ente
-        rs if this is not the last character AND not a
+        # checked.  Enters if this is not the last character AND not a
         # vowel.
         elif (i < len(r)-1) or (r[i] == 'N'):
             output += _inter_other_logic(r,i,tmp)
